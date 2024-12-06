@@ -4,9 +4,9 @@ A code to visualize the various layer activations of a CNN
 **Visualizing intermediate layers of a neural network:** This project
 shows what kind of patterns in an image a convolutional neural network
 (CNN) learns to recognize. This work is based on "Visualizing and
-Understanding Convolutional Networks"[@Deconv].
+Understanding Convolutional Networks"[2].
 
-[**TASK 1**)]{.underline} Build and train a CNN to classify MNIST
+[**TASK 1**)] Build and train a CNN to classify MNIST
 digits. The CNN architecture to be implemented should have layers in
 below order and specifications:
 
@@ -39,23 +39,26 @@ below order and specifications:
 
 -   A log softmax layer to output class probabilities.
 
-[**NOTE-1**]{.underline}-The model code provides access to the
+[**NOTE-1**]-The model code provides access to the
 convolutional filters and outputs from maxpooling layers through the
 functions outside the CNN model even after the training is complete. In
 Pytorch (assuming you are defining your model as a class) this may mean
 defining/referencing the layers with 'self.' prefix. In Tensorflow, it
 may mean explicitly naming the layer as a named node.
-[**NOTE-2**]{.underline}- In the max-pooling step, location of the
+
+
+[**NOTE-2**]- In the max-pooling step, location of the
 maxima within a pooling region is also accessible to functions outside
 the CNN model. These modifications will be required for the
 visualization task.
 
-This is the classic LeNet-5  [@LENET5] model (with some modifications).
+This is the classic LeNet-5  [1] model (with some modifications).
 Graphically, the model architecture would look as shown in
-Fig.-[1](#fig:LeNet5){reference-type="ref" reference="fig:LeNet5"}:
+Fig.-[1](#fig:LeNet5)
 
-![LeNet5 Architecture](LeNet5.png){#fig:LeNet5}
-
+![LeNet5 Architecture](LeNet5.png)
+Fig.-1 Classic LENET5
+<br /><br />
 You can calculate the size of output after convolution operation, using
 the formula: $$O = \dfrac{I+2P-K}{S} + 1$$ where, $O$ is the output
 width/height, $I$ is the input width/height, $P$ is the
@@ -64,13 +67,12 @@ convolotional filter, $S$ is the width/height-wise stride size.
 
 After training this model, we will visualize the intermediate layer
 activations look. For this we can follow the approach shown in
- [@Deconv], **where they map the layer activations back to input pixel
+ [2], **where they map the layer activations back to input pixel
 space, showing what input pattern actually caused a given activation to
 light up!**
 
 \"To examine a convnet, a deconvnet is attached to each of its layers,
-as illustrated in Fig. [3](#fig:deconv){reference-type="ref"
-reference="fig:deconv"}(top). To start, an input image is presented to
+as illustrated in Fig. [3]. To start, an input image is presented to
 the convnet and features are computed throughout the layers. To examine
 a given convnet activation (i.e. a filter output), we set all other
 activations in the layer to zero and pass the feature maps as input to
@@ -78,7 +80,7 @@ the attached deconvnet layer. Then we successively (i) unpool, (ii)
 rectify and (iii) filter (these 3 steps are elaborated below) to
 reconstruct the activity in the layer beneath that gave rise to the
 chosen activation. This is then repeated until input pixel space is
-reached.\" [@Deconv]
+reached.\" [2]
 
 Unpooling: \"In the convnet, the max pooling operation is
 non-invertible, however we can obtain an approximate inverse by
@@ -90,46 +92,48 @@ stimulus.\" Rectification: \"The convnet uses relu non-linearities,
 which rectify the feature maps thus ensuring the feature maps are always
 positive. To obtain valid feature reconstructions at each layer (which
 also should be positive), we pass the reconstructed signal through a
-relu non-linearity.\" [@Deconv]
+relu non-linearity.\" [2]
 
 Visual example of unpooling operation is shown in
-Fig.-[2](#fig:unpool){reference-type="ref" reference="fig:unpool"}
-(Image source:
+Fig.-[2](Image source:
 [unpooling](https://www.oreilly.com/library/view/hands-on-convolutional-neural/9781789130331/6476c4d5-19f2-455f-8590-c6f99504b7a5.xhtml))
 
-![Unpooling visual example](unpooling1.png){#fig:unpool}
-
+![Unpooling visual example](unpooling1.png)
+Fig.-[2]:Unpool
+<br /><br />
 Deconvnet: \"The convnet uses learned filters to convolve the feature
 maps from the previous layer. To invert this, the deconvnet uses
 transposed versions of the same filters, but applied to the rectified
 maps, not the output of the layer beneath. In practice this means
-flipping each filter vertically and horizontally.\" [@Deconv]
+flipping each filter vertically and horizontally.\" [2]
 
 This whole procedure of deconvnet for one layer is shown in
-Fig-[3](#fig:deconv){reference-type="ref" reference="fig:deconv"}(Image
-source: [@Deconv])
+Fig-[3](Image
+source: [2])
 
 <figure id="fig:deconv">
 <p><img src="layer_vis.png" alt="image" /> <span id="fig:deconv"
 data-label="fig:deconv"></span></p>
-<figcaption>Deconvnet layer attached with Convnet layer</figcaption>
+<figcaption>Fig-[3] Deconvnet layer attached with Convnet layer</figcaption>
 </figure>
 
+<br /><br />
 Examples of activation generation in input pixel space (with
 corresponding original input images) using such framework for a more
 complicated CNN are shown in
-Fig.-[4](#fig:deconv_ex){reference-type="ref"
-reference="fig:deconv_ex"}. (Image source: [@Deconv])
+Fig.-[4]. (Image source: [2])
 
 ![Activation examples with corresponding inputs for a more complicated
-CNN than LENET-5](layer_vis1.png){#fig:deconv_ex}
+CNN than LENET-5](layer_vis1.png) 
+Fig-[4]:Deconvolution Examples
 
-[**TASK 2**)]{.underline} After building and training the LENET-5 model,
+
+[**TASK 2**)] After building and training the LENET-5 model,
 build a new layer activations visualization model using deconvnet layers
 (having unpooling, rectification and transposed convolution operations)
 as explained above.
 
-[**TASK 3**)]{.underline} Generate visualizations in input pixel space
+[**TASK 3**)] Generate visualizations in input pixel space
 of various activations from the 2 convolutional layers (6+16=22
 activations in total), for some test inputs. The steps for activation
 generation would be:
@@ -150,12 +154,12 @@ generation would be:
     zeroing out this time), and repeat this step, until input pixel
     space is reached.
 
-**Generate visualizations using above steps for one input image each for
-the digits: 0,1,5 and 8.**
+**To see visualization examples using above steps applied to MNIST dataset, review and run the lenet5_activtion_transform.ipynb file.**
 
-::: thebibliography
-999 Le Cun et al.: \"Comparison of Learning Algorithms for Handwritten
-Digit Recognition\", 1995; ICANN Matthew D Zeiler, Rob Fergus:
-"Visualizing and Understanding Convolutional Networks", 2013;
+Bibliography
+
+[1] Le Cun et al.: \"Comparison of Learning Algorithms for Handwritten Digit Recognition\", 1995; 
+<br /><br />
+[2] ICANN Matthew D Zeiler, Rob Fergus: "Visualizing and Understanding Convolutional Networks", 2013;
 arXiv:1311.2901.
-:::
+
